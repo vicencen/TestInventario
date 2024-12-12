@@ -17,11 +17,11 @@
 
     #logo {
       width: 150px;
-      margin: 40px auto; /* Aumenta la separación con otros elementos */
+      margin: 40px auto;
     }
 
     input[type="password"], button {
-      display: block; /* Para asegurarte de que los elementos estén en líneas separadas */
+      display: block;
       width: 90vw;
       max-width: 600px;
       height: 60px;
@@ -29,7 +29,7 @@
       padding: 15px;
       border: 2px solid black;
       border-radius: 8px;
-      margin: 20px auto; /* Aumenta la separación entre ellos */
+      margin: 20px auto;
       background-color: white;
       color: black;
     }
@@ -74,27 +74,34 @@
 </head>
 <body>
 
-<!-- Ícono cargado desde PostImage -->
 <img id="logo" src="https://i.postimg.cc/FFkMzyCn/Simplex.png" alt="Logo">
 
 <input type="password" id="password" placeholder="Contraseña">
 <button onclick="authenticate()">Ingresar</button>
 
-<!-- Loader debajo del cuadro de contraseña -->
 <div class="lds-ring" id="loading">
   <div></div><div></div><div></div><div></div>
 </div>
 
 <script>
-  const CORRECT_PASSWORD = "VicenteQR";
+  // Diccionario de contraseñas y parámetros 'q'
+  const PASSWORDS = {
+    "VicenteQR": "Vicente_Perez",
+    "GustavoQR": "Gustavo_Masuzzo",
+    "Clave2": "Usuario_2",
+    "Clave3": "Usuario_3",
+    "Clave4": "Usuario_4"
+  };
+
   const AS_URL_BASE = "https://script.google.com/macros/s/AKfycbzn4Kp22ckiEZ-I0zSbL7prhDC80KO6vafgabqfVbt1rYtn3ePcXdFn89aYlPgDyRhh/exec";
 
   function authenticate() {
     const password = document.getElementById('password').value;
-    if (password === CORRECT_PASSWORD) {
+  
+    if (PASSWORDS[password]) {
+      const q = PASSWORDS[password]; 
       const url = new URL(window.location.href);
       const k = url.searchParams.get("k");
-      const q = "Vicente_Perez"
 
       if (k) {
         document.getElementById("loading").style.display = "inline-block";
@@ -121,5 +128,6 @@
     }
   }
 </script>
+
 </body>
 </html>
