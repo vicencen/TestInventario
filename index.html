@@ -80,7 +80,7 @@
 </div>
 
 <script>
-  const CORRECT_PASSWORD = "SimplexQR!2024";
+  const CORRECT_PASSWORD = "VicenteQR";
   const AS_URL_BASE = "https://script.google.com/macros/s/AKfycbzn4Kp22ckiEZ-I0zSbL7prhDC80KO6vafgabqfVbt1rYtn3ePcXdFn89aYlPgDyRhh/exec";
 
   function authenticate() {
@@ -88,10 +88,11 @@
     if (password === CORRECT_PASSWORD) {
       const url = new URL(window.location.href);
       const k = url.searchParams.get("k");
+      const q = "Vicente_Perez"
 
       if (k) {
         document.getElementById("loading").style.display = "inline-block";
-        fetch(`${AS_URL_BASE}?k=${k}`)
+        fetch(`${AS_URL_BASE}?k=${k}&q=${q}`)
           .then(response => response.text())
           .then(result => {
             document.getElementById("loading").style.display = "none";
