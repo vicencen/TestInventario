@@ -5,109 +5,113 @@
   <title>Autenticación</title>
   <style>
     body {
-      background-color: #f2f0f0;
+      background-color: #f5f5f5;
       text-align: center;
+      font-family: Arial, sans-serif;
     }
+
+    #logo {
+      width: 150px;
+      margin: 40px auto 20px;
+    }
+
+    input[type="password"], button {
+      width: 90vw;  
+      max-width: 600px;  
+      height: 60px;  
+      font-size: 20px;  
+      padding: 15px;
+      border: 2px solid black;
+      border-radius: 8px;
+      margin: 15px 0;
+      background-color: white;
+      color: black;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: black;
+      color: white;
+    }
+
     .lds-ring {
-      display: inline-block;
-      position: relative;
-      width: 80px;
-      height: 80px;
+      display: none;
+      margin-top: 20px;
     }
+
     .lds-ring div {
       box-sizing: border-box;
       display: block;
       position: absolute;
       width: 64px;
       height: 64px;
-      margin: 8px;
-      border: 8px solid #fff;
+      margin: 8px auto;
+      border: 8px solid black;
       border-radius: 50%;
       animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-      border-color: #fff transparent transparent transparent;
+      border-color: black transparent transparent transparent;
     }
-    .lds-ring div:nth-child(1) {
-      animation-delay: -0.45s;
-    }
-    .lds-ring div:nth-child(2) {
-      animation-delay: -0.3s;
-    }
-    .lds-ring div:nth-child(3) {
-      animation-delay: -0.15s;
-    }
+
+    .lds-ring div:nth-child(1) { animation-delay: -0.45s; }
+    .lds-ring div:nth-child(2) { animation-delay: -0.3s; }
+    .lds-ring div:nth-child(3) { animation-delay: -0.15s; }
+
     @keyframes lds-ring {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
-    input[type="password"], button {
-  width: 90vw;  
-  max-width: 600px;  
-  height: 60px; 
-  font-size: 20px;  
-  padding: 15px;
-  border: 2px solid white;
-  border-radius: 8px;
-  margin: 15px 0;
-  background-color: black;
-  color: white;
-}
-
-button {
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: white;
-  color: black;
-}
   </style>
 </head>
 <body>
-  <input type="password" id="password" placeholder="Contraseña">
-  <button onclick="authenticate()">Ingresar</button>
 
-  <div class="lds-ring" id="loading" style="display: none;">
-    <div></div><div></div><div></div><div></div>
-  </div>
+<!-- Ícono cargado desde PostImage -->
+<img id="logo" src="https://i.postimg.cc/FFkMzyCn/Simplex.png" alt="Logo">
 
-  <script>
-    const CORRECT_PASSWORD = "SimplexQR!2024";
-    const AS_URL_BASE = "https://script.google.com/macros/s/AKfycbzn4Kp22ckiEZ-I0zSbL7prhDC80KO6vafgabqfVbt1rYtn3ePcXdFn89aYlPgDyRhh/exec";
+<input type="password" id="password" placeholder="Contraseña">
+<button onclick="authenticate()">Ingresar</button>
 
-    function authenticate() {
-      const password = document.getElementById('password').value;
-      if (password === CORRECT_PASSWORD) {
-        const url = new URL(window.location.href);
-        const k = url.searchParams.get("k");
+<!-- Loader debajo del cuadro de contraseña -->
+<div class="lds-ring" id="loading">
+  <div></div><div></div><div></div><div></div>
+</div>
 
-        if (k) {
-          document.getElementById("loading").style.display = "inline-block";
-          fetch(`${AS_URL_BASE}?k=${k}`)
-            .then(response => response.text())
-            .then(result => {
-              document.getElementById("loading").style.display = "none";
-              if (result) {
-                document.location.replace(result);
-              } else {
-                alert("Acceso denegado.");
-              }
-            })
-            .catch(err => {
-              document.getElementById("loading").style.display = "none";
-              console.error("Error de conexión:", err);
-              alert("Hubo un error al procesar la solicitud.");
-            });
-        } else {
-          alert("Parámetro 'k' no encontrado.");
-        }
+<script>
+  const CORRECT_PASSWORD = "SimplexQR!2024";
+  const AS_URL_BASE = "https://script.google.com/macros/s/AKfycbzn4Kp22ckiEZ-I0zSbL7prhDC80KO6vafgabqfVbt1rYtn3ePcXdFn89aYlPgDyRhh/exec";
+
+  function authenticate() {
+    const password = document.getElementById('password').value;
+    if (password === CORRECT_PASSWORD) {
+      const url = new URL(window.location.href);
+      const k = url.searchParams.get("k");
+
+      if (k) {
+        document.getElementById("loading").style.display = "inline-block";
+        fetch(`${AS_URL_BASE}?k=${k}`)
+          .then(response => response.text())
+          .then(result => {
+            document.getElementById("loading").style.display = "none";
+            if (result) {
+              document.location.replace(result);
+            } else {
+              alert("Acceso denegado.");
+            }
+          })
+          .catch(err => {
+            document.getElementById("loading").style.display = "none";
+            console.error("Error de conexión:", err);
+            alert("Hubo un error al procesar la solicitud.");
+          });
       } else {
-        alert("Contraseña incorrecta.");
+        alert("Parámetro 'k' no encontrado.");
       }
+    } else {
+      alert("Contraseña incorrecta.");
     }
-  </script>
+  }
+</script>
 </body>
 </html>
